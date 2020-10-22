@@ -1,0 +1,16 @@
+---
+# vars file for apache
+
+
+
+vhost_conf_tempalte: 000-default.conf.template
+vhost_conf_filename: 000-default.conf
+
+http_port: 80
+
+server_admin: webmaster@5gemulator.flrdt.com
+server_name: 5gemulator.flrdt.com
+server_alias: 5gemulator.flrdt.com
+document_root: '/var/www/html/5gemulator.flrdt.com/public_html'
+directory_index: '/netprizm/index.html index.php'
+directory_log: '/var/www/html/5gemulator.flrdt.com/log/'

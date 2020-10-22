@@ -1,0 +1,37 @@
+---
+# tasks file for apache
+- name: install apache2
+  apt: name=apache2 update_cache=yes state=latest
+
+- name: Configure ufw rules
+  ufw: rule=allow port=80 proto=tcp
+
+- name: create virtual host file
+  template: src={{vhost_conf_tempalte}} dest=/etc/apache2/sites-available/{{ vhost_conf_filename }}.conf
+
+- name: create default directory
+  file:
+    path: "{{document_root}}/netprizm"
+    state: directory
+    mode: '0755'
+
+- name: Change permission
+  file:
+    path: "{{ directory_log }}"
+    mode: '0777'
+
+- name: Enable apache modules
+  apache2_module: name={{ item }} state=present
+  with_items:
+    - proxy
+    - proxy_http
+
+- name: enabled mod_rewrite
+  apache2_module: name=rewrite state=present
+  notify:
+    - restart apache2
+
+- name: create virtual host file
+  template:
+    src: "{{vhost_conf_tempalte}}"
+    dest: "/etc/apache2/sites-available/{{ vhost_conf_filename }}.conf"
